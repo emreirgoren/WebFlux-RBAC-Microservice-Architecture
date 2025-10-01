@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS rbac (
 );
 
 -- Örnek veri
-INSERT INTO rbac (email, path, method) VALUES ('user@example.com', '/api/v1/orders', 'GET');
-INSERT INTO rbac (email, path, method) VALUES ('user@example.com', '/api/v1/orders', 'POST');
+INSERT INTO rbac (email, path, method) VALUES ('user@example.com', '/api/v1/orders', 'READ');
+INSERT INTO rbac (email, path, method) VALUES ('user@example.com', '/api/v1/orders', 'WRITE');

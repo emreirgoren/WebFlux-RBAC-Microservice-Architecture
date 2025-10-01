@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public interface PermissionService {
+public interface RbacService {
 
 
     Mono<Map<String, List<String>>> getPermissions(String jwtToken);

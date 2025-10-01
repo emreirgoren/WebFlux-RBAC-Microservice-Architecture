@@ -1,7 +1,7 @@
 package com.xpress.api_gateway.utils;
 
 import com.xpress.api_gateway.domain.Operation;
-import com.xpress.api_gateway.service.PermissionService;
+import com.xpress.api_gateway.service.RbacService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,11 +21,11 @@ public class JwtRequestFilter implements WebFilter {
 
     private final Jwtutil jwtutil;
 
-    private final PermissionService permissionService;
+    private final RbacService rbacService;
 
-    public JwtRequestFilter(Jwtutil jwtutil, PermissionService permissionService) {
+    public JwtRequestFilter(Jwtutil jwtutil, RbacService rbacService) {
         this.jwtutil = jwtutil;
-        this.permissionService = permissionService;
+        this.rbacService = rbacService;
     }
 
 
@@ -54,7 +54,7 @@ public class JwtRequestFilter implements WebFilter {
         HttpMethod httpMethod = exchange.getRequest().getMethod();
         Operation operation = Operation.fromHttpMethod(httpMethod);
 
-        return permissionService.getPermissions(jwtToken)
+        return rbacService.getPermissions(jwtToken)
                 .flatMap(permissions ->{
                     boolean allowed = permissions.entrySet().stream()
                             .anyMatch( entry -> path.startsWith(entry.getKey()) &&
@@ -72,7 +72,7 @@ public class JwtRequestFilter implements WebFilter {
                                 .doOnError(err -> System.out.println("Error in chain: " + err));
                     }
                     else {
-                        return Mono.error(new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't have access"));
+                        return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You don't have access"));
                     }
                 });
 
