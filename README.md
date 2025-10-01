@@ -1,22 +1,22 @@
-# WebFlux ABAC Auth Example / WebFlux ABAC Yetkilendirme Örneği
+# WebFlux RBAC Auth Example / WebFlux RBAC Yetkilendirme Örneği
 
 ### EN:
-A demo project showing ABAC (Attribute-Based Access Control) authentication in a Spring WebFlux microservices setup.
+A demo project showing RBAC (Role-Based Access Control) authentication in a Spring WebFlux microservices setup.
 
 JWT-based authentication
 
-Centralized Permission Service
+Centralized RBAC Service
 
 Dynamic access control per service & endpoint
-Educational example for learning ABAC-based security in reactive microservices.
+Educational example for learning RBAC-based security in reactive microservices.
 
 ### TR:
-Mikroservis mimarilerinde ABAC (Öznitelik Tabanlı Erişim Kontrolü) kullanarak yetkilendirme örneği.
+Mikroservis mimarilerinde RBAC (Role Tabanlı Erişim Kontrolü) kullanarak yetkilendirme örneği.
 
 JWT tabanlı kimlik doğrulama
 
-Merkezi Permission Servisi
+Merkezi RBAC Servisi
 
 Servis ve endpoint bazında dinamik erişim kontrolü
-Reactive mikroservislerde ABAC tabanlı güvenlik öğrenmek için eğitim amaçlı örnek.
+Reactive mikroservislerde RBAC tabanlı güvenlik öğrenmek için eğitim amaçlı örnek.
 
