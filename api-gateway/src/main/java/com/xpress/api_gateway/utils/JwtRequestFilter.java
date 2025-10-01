@@ -4,6 +4,10 @@ import com.xpress.api_gateway.domain.Operation;
 import com.xpress.api_gateway.service.PermissionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
@@ -56,7 +60,16 @@ public class JwtRequestFilter implements WebFilter {
                             .anyMatch( entry -> path.startsWith(entry.getKey()) &&
                                     entry.getValue().contains(operation.name()));
                     if(allowed){
-                        return chain.filter(exchange);
+                        var authorities = permissions.entrySet().stream()
+                                .flatMap(entry -> entry.getValue().stream()
+                                        .map(op -> new SimpleGrantedAuthority(entry.getKey() + ":" + op)))
+                                .toList();
+
+                        Authentication auth = new UsernamePasswordAuthenticationToken(jwtToken, null, authorities);
+
+                        return chain.filter(exchange)
+                                .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth))
+                                .doOnError(err -> System.out.println("Error in chain: " + err));
                     }
                     else {
                         return Mono.error(new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't have access"));
