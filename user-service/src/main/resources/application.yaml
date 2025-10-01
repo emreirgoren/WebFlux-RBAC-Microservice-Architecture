@@ -1,0 +1,21 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/userdb
+    username: postgres
+    password: postgres
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  security:
+    user:
+      name: admin
+      password: admin
+
+server:
+  port: 9002
